@@ -7,94 +7,11 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <h1>₿itcoin Price</h1>
+    <h1>₿itcoin</h1>
     <div id="price-container">
       <div id="price"></div>
-      <span class="currency-symbol" id="currency-symbol">₿</span>
+      <span class="currency-symbol" id="currency-symbol"></span>
     </div>
-
-    <script>
-      let previousPrice = null;
-
-      // Fonction pour obtenir la devise en fonction de la localisation géographique
-      async function getCurrency() {
-        // Utilisation de l'API de géolocalisation pour obtenir la position
-        const response = await fetch("https://ipapi.co/json/");
-        const data = await response.json();
-
-        // Selon le pays, on choisit la devise (par exemple EUR pour la France, USD pour les États-Unis)
-        if (data.country_code === "US") {
-          return "usd"; // USD pour les États-Unis
-        } else {
-          return "eur"; // EUR pour les autres pays (tu peux ajouter d'autres règles si nécessaire)
-        }
-      }
-
-      // Fonction pour obtenir le prix du Bitcoin
-      async function fetchBitcoinPrice() {
-        const currency = await getCurrency(); // Récupérer la devise
-        const response = await fetch(
-          `https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=${currency}`
-        );
-        const data = await response.json();
-
-        // Affichage du prix en fonction de la devise récupérée
-        const price = data.bitcoin[currency];
-        const symbol = currency === "usd" ? "$" : "€";
-        updatePriceDisplay(price, symbol); // Met à jour l'affichage avec le prix et la devise
-      }
-
-      function updatePriceDisplay(price, symbol) {
-        previousPrice = price;
-        console.log("BTC price " + price);
-        console.log("Previous price " + previousPrice);
-
-        const priceStr = price.toFixed(2); // Garde 2 décimales
-        const digits = priceStr.split("").map((digit) => {
-          return `<div class="price-digit">${digit}</div>`;
-        });
-
-        const priceContainer = document.getElementById("price");
-        priceContainer.innerHTML = digits.join("");
-
-        // Animation pour chaque chiffre (couleur de fond)
-        const digitsElements = priceContainer.querySelectorAll(".price-digit");
-        digitsElements.forEach((digit, index) => {
-          const newDigit = priceStr[index];
-          const oldDigit = digit.innerText;
-
-          if (newDigit !== oldDigit) {
-            // Comparer les chiffres pour savoir s'il y a une hausse ou une baisse
-            if (previousPrice === null) {
-              // Au premier chargement, on laisse la couleur orange
-              //   digit.classList.remove("change-up", "change-down");
-            } else {
-              const priceChange = price - previousPrice;
-              console.log(priceChange);
-              if (priceChange > 0) {
-                // Si le prix a augmenté
-                digit.classList.add("change-up");
-                // digit.classList.remove("change-down");
-              } else if (priceChange < 0) {
-                // Si le prix a baissé
-                digit.classList.add("change-down");
-                // digit.classList.remove("change-up");
-              }
-            }
-            // Mémoriser la dernière valeur de chaque chiffre
-            digit.innerText = newDigit;
-          }
-        });
-
-        // Sauvegarder le prix précédent pour la comparaison
-        previousPrice = price;
-
-        // Mise à jour du symbole de la devise
-        document.getElementById("currency-symbol").innerText = symbol;
-      }
-
-      setInterval(fetchBitcoinPrice, 60000); // Mettre à jour toutes les 10 secondes
-      window.onload = fetchBitcoinPrice; // Appel initial au chargement de la page
-    </script>
+    <script src="main.js"></script>
   </body>
 </html>

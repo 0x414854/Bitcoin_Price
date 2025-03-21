@@ -15,7 +15,6 @@ body {
   color: white;
 }
 h1 {
-  /* color: white; */
   font-size: 8vw;
   align-items: center;
 }
@@ -42,25 +41,35 @@ h1 {
   color: white;
   box-shadow: 0 0 6px rgb(255, 255, 255);
   text-align: center;
+  transition: color 1s ease;
 }
 
+.currency-symbol {
+  margin-left: 12px;
+  color: white;
+  box-shadow: 0 0 6px transparent;
+  transition: color 1s ease;
+}
 .change-up {
   color: green;
-  transition: color 3s ease;
+  box-shadow: 0 0 10px green;
 }
 
 .change-down {
   color: red;
-  transition: color 3s ease;
+  box-shadow: 0 0 10px red;
 }
 
-#price {
-  color: white;
+.change-up-symbol {
+  color: green;
 }
-.currency-symbol {
-  margin-left: 12px;
-  color: white;
+
+.change-down-symbol {
+  color: red;
 }
+/* #price {
+  color: white;
+} */
 
 @media (max-width: 768px) {
   h1 {
